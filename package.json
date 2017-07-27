@@ -8,7 +8,7 @@
   "activationCommands": {
     "atom-workspace": "atom-hugo:toggle"
   },
-  "repository": "https://github.com/atom/atom-hugo",
+  "repository": "https://github.com/calintat/atom-hugo",
   "license": "MIT",
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
