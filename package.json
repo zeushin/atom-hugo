@@ -6,7 +6,13 @@
   "keywords": [
   ],
   "activationCommands": {
-    "atom-workspace": "atom-hugo:toggle"
+    "atom-workspace": [
+      "atom-hugo:new",
+      "atom-hugo:new-site",
+      "atom-hugo:build",
+      "atom-hugo:server",
+      "atom-hugo:kill-server"
+    ]
   },
   "repository": "https://github.com/calintat/atom-hugo",
   "license": "MIT",

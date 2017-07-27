@@ -1,20 +1,28 @@
-# See https://atom.io/docs/latest/hacking-atom-package-word-count#menus for more details
-'context-menu':
-  'atom-text-editor': [
-    {
-      'label': 'Toggle atom-hugo'
-      'command': 'atom-hugo:toggle'
-    }
-  ]
 'menu': [
   {
     'label': 'Packages'
     'submenu': [
-      'label': 'atom-hugo'
+      'label': 'Hugo'
       'submenu': [
         {
-          'label': 'Toggle'
-          'command': 'atom-hugo:toggle'
+          'label': 'New'
+          'command': 'atom-hugo:new'
+        }
+        {
+          'label': 'New site'
+          'command': 'atom-hugo:new-site'
+        }
+        {
+          'label': 'Build'
+          'command': 'atom-hugo:build'
+        }
+        {
+          'label': 'Server'
+          'command': 'atom-hugo:server'
+        }
+        {
+          'label': 'Kill server'
+          'command': 'atom-hugo:kill-server'
         }
       ]
     ]
