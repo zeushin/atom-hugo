@@ -1,11 +1,6 @@
-# Keybindings require three things to be fully defined: A selector that is
-# matched against the focused element, the keystroke and the command to
-# execute.
-#
-# Below is a basic keybinding which registers on all platforms by applying to
-# the root workspace element.
-
-# For more detailed documentation see
-# https://atom.io/docs/latest/behind-atom-keymaps-in-depth
 'atom-workspace':
-  'ctrl-alt-o': 'atom-hugo:toggle'
+  'ctrl-cmd-n': 'atom-hugo:new'
+  'ctrl-cmd-s': 'atom-hugo:new-site'
+  'ctrl-cmd-b': 'atom-hugo:build'
+  'ctrl-cmd-h': 'atom-hugo:server'
+  'ctrl-cmd-c': 'atom-hugo:kill-server'
