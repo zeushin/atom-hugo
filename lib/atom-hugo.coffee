@@ -142,12 +142,12 @@ module.exports = AtomHugo =
       "-E=#{atom.config.get('atom-hugo.build.buildExpired')}",
       "-F=#{atom.config.get('atom-hugo.build.buildFuture')}",
       "-w=#{atom.config.get('atom-hugo.build.watch')}",
-      "-p=280797"
+      "-p=2897"
     ]
 
     # Show notifications for output and error messages
     @serverCmd.stdout.on 'data', (data) ->
-      shell.openExternal('http://localhost:280797')
+      shell.openExternal('http://localhost:2897')
       atom.notifications.addSuccess data.toString()
     @serverCmd.stderr.on 'data', (data) -> atom.notifications.addError data.toString()
 
