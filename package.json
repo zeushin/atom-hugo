@@ -1,10 +1,9 @@
 {
   "name": "atom-hugo",
   "main": "./lib/atom-hugo",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Hugo package for Atom",
-  "keywords": [
-  ],
+  "keywords": [],
   "activationCommands": {
     "atom-workspace": [
       "atom-hugo:new",
@@ -19,6 +18,5 @@
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }
