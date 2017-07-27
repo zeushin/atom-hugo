@@ -1,9 +1,6 @@
-AtomHugoView = require './atom-hugo-view'
 {CompositeDisposable} = require 'atom'
 
 module.exports = AtomHugo =
-  atomHugoView: null
-  modalPanel: null
   subscriptions: null
 
   config:
@@ -67,9 +64,6 @@ module.exports = AtomHugo =
           description: 'Watch filesystem for changes and recreate as needed'
 
   activate: (state) ->
-    @atomHugoView = new AtomHugoView(state.atomHugoViewState)
-    @modalPanel = atom.workspace.addModalPanel(item: @atomHugoView.getElement(), visible: false)
-
     # Events subscribed to in atom's system can be easily cleaned up with a CompositeDisposable
     @subscriptions = new CompositeDisposable
 
@@ -82,12 +76,7 @@ module.exports = AtomHugo =
       'atom-hugo:kill-server': => @killServer()
 
   deactivate: ->
-    @modalPanel.destroy()
     @subscriptions.dispose()
-    @atomHugoView.destroy()
-
-  serialize: ->
-    atomHugoViewState: @atomHugoView.serialize()
 
   toggle: ->
     console.log 'AtomHugo was toggled!'
