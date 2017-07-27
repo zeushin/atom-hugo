@@ -1,9 +1,11 @@
 {CompositeDisposable} = require 'atom'
 {spawn} = require 'child_process'
 Dialog = require './dialog'
+shell = require 'shell'
 
 module.exports = AtomHugo =
   subscriptions: null
+  serverCmd: null
 
   config:
     site:
@@ -79,6 +81,7 @@ module.exports = AtomHugo =
 
   deactivate: ->
     @subscriptions.dispose()
+    killServer()
 
   new: ->
     dialog = new Dialog {
@@ -87,11 +90,11 @@ module.exports = AtomHugo =
     }
     dialog.onConfirm = (path) ->
       # Spawn "hugo new [path] [flags]"
-      h = spawn 'hugo', ['new', path, "-s=#{atom.project.getPaths()[0]}"]
+      cmd = spawn 'hugo', ['new', path, "-s=#{atom.project.getPaths()[0]}"]
 
       # Show notifications for output and error messages
-      h.stdout.on 'data', (data) -> atom.notifications.addSuccess data.toString()
-      h.stderr.on 'data', (data) -> atom.notifications.addError data.toString()
+      cmd.stdout.on 'data', (data) -> atom.notifications.addSuccess data.toString()
+      cmd.stderr.on 'data', (data) -> atom.notifications.addError data.toString()
 
       dialog.close()
 
@@ -104,12 +107,49 @@ module.exports = AtomHugo =
     }
     dialog.onConfirm = (path) ->
       # Spawn "hugo new site [path] [flags]"
-      h = spawn 'hugo', ['new', 'site', path, "-f=#{atom.config.get('atom-hugo.site.format')}"]
+      cmd = spawn 'hugo', ['new', 'site', path, "-f=#{atom.config.get('atom-hugo.site.format')}"]
 
       # Show notifications for output and error messages
-      h.stdout.on 'data', (data) -> atom.notifications.addSuccess data.toString()
-      h.stderr.on 'data', (data) -> atom.notifications.addError data.toString()
+      cmd.stdout.on 'data', (data) -> atom.notifications.addSuccess data.toString()
+      cmd.stderr.on 'data', (data) -> atom.notifications.addError data.toString()
 
       dialog.close()
 
     dialog.attach()
+
+  build: ->
+    # Spawn hugo [flags]
+    cmd = spawn 'hugo', [
+      "-s=#{atom.project.getPaths()[0]}",
+      "-D=#{atom.config.get('atom-hugo.build.buildDrafts')}",
+      "-E=#{atom.config.get('atom-hugo.build.buildExpired')}",
+      "-F=#{atom.config.get('atom-hugo.build.buildFuture')}",
+      "-w=#{atom.config.get('atom-hugo.build.watch')}"
+    ]
+
+    # Show notifications for output and error messages
+    cmd.stdout.on 'data', (data) -> atom.notifications.addSuccess data.toString()
+    cmd.stderr.on 'data', (data) -> atom.notifications.addError data.toString()
+
+  server: ->
+    # Check if server is already running and kill it
+    @killServer()
+
+    @serverCmd = spawn 'hugo', [
+      'server',
+      "-s=#{atom.project.getPaths()[0]}",
+      "-D=#{atom.config.get('atom-hugo.build.buildDrafts')}",
+      "-E=#{atom.config.get('atom-hugo.build.buildExpired')}",
+      "-F=#{atom.config.get('atom-hugo.build.buildFuture')}",
+      "-w=#{atom.config.get('atom-hugo.build.watch')}",
+      "-p=280797"
+    ]
+
+    # Show notifications for output and error messages
+    @serverCmd.stdout.on 'data', (data) ->
+      shell.openExternal('http://localhost:280797')
+      atom.notifications.addSuccess data.toString()
+    @serverCmd.stderr.on 'data', (data) -> atom.notifications.addError data.toString()
+
+  killServer: ->
+    if @serverCmd != null then @serverCmd.kill()
