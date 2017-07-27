@@ -1,4 +1,6 @@
 {CompositeDisposable} = require 'atom'
+{spawn} = require 'child_process'
+Dialog = require './dialog'
 
 module.exports = AtomHugo =
   subscriptions: null
@@ -78,10 +80,36 @@ module.exports = AtomHugo =
   deactivate: ->
     @subscriptions.dispose()
 
-  toggle: ->
-    console.log 'AtomHugo was toggled!'
+  new: ->
+    dialog = new Dialog {
+      initialPath: 'post/'
+      prompt: 'Create new content for your site'
+    }
+    dialog.onConfirm = (path) ->
+      # Spawn "hugo new [path] [flags]"
+      h = spawn 'hugo', ['new', path, "-s=#{atom.project.getPaths()[0]}"]
 
-    if @modalPanel.isVisible()
-      @modalPanel.hide()
-    else
-      @modalPanel.show()
+      # Show notifications for output and error messages
+      h.stdout.on 'data', (data) -> atom.notifications.addSuccess data.toString()
+      h.stderr.on 'data', (data) -> atom.notifications.addError data.toString()
+
+      dialog.close()
+
+    dialog.attach()
+
+  newSite: ->
+    dialog = new Dialog {
+      initialPath: atom.config.get('core.projectHome')
+      prompt: 'Create a new site (skeleton)'
+    }
+    dialog.onConfirm = (path) ->
+      # Spawn "hugo new site [path] [flags]"
+      h = spawn 'hugo', ['new', 'site', path, "-f=#{atom.config.get('atom-hugo.site.format')}"]
+
+      # Show notifications for output and error messages
+      h.stdout.on 'data', (data) -> atom.notifications.addSuccess data.toString()
+      h.stderr.on 'data', (data) -> atom.notifications.addError data.toString()
+
+      dialog.close()
+
+    dialog.attach()
