@@ -74,7 +74,12 @@ module.exports = AtomHugo =
     @subscriptions = new CompositeDisposable
 
     # Register command that toggles this view
-    @subscriptions.add atom.commands.add 'atom-workspace', 'atom-hugo:toggle': => @toggle()
+    @subscriptions.add atom.commands.add 'atom-workspace',
+      'atom-hugo:new': => @new()
+      'atom-hugo:new-site': => @newSite()
+      'atom-hugo:build': => @build()
+      'atom-hugo:server': => @server()
+      'atom-hugo:kill-server': => @killServer()
 
   deactivate: ->
     @modalPanel.destroy()
