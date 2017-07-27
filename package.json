@@ -3,7 +3,10 @@
   "main": "./lib/atom-hugo",
   "version": "0.1.0",
   "description": "Hugo package for Atom",
-  "keywords": [],
+  "keywords": [
+    "hugo",
+    "gohugo"
+  ],
   "activationCommands": {
     "atom-workspace": [
       "atom-hugo:new",
