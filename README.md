@@ -1,5 +1,7 @@
 # atom-hugo package
 
+[![apm](https://img.shields.io/apm/v/atom-hugo.svg)](https://atom.io/packages/atom-hugo)
+
 Hugo package for Atom.
 
 ## Installation
