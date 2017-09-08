@@ -138,10 +138,10 @@ module.exports = AtomHugo =
     @serverCmd = spawn 'hugo', [
       'server',
       "-s=#{atom.project.getPaths()[0]}",
-      "-D=#{atom.config.get('atom-hugo.build.buildDrafts')}",
-      "-E=#{atom.config.get('atom-hugo.build.buildExpired')}",
-      "-F=#{atom.config.get('atom-hugo.build.buildFuture')}",
-      "-w=#{atom.config.get('atom-hugo.build.watch')}",
+      "-D=#{atom.config.get('atom-hugo.server.buildDrafts')}",
+      "-E=#{atom.config.get('atom-hugo.server.buildExpired')}",
+      "-F=#{atom.config.get('atom-hugo.server.buildFuture')}",
+      "-w=#{atom.config.get('atom-hugo.server.watch')}",
       "-p=2897"
     ]
 
